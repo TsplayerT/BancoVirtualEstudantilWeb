@@ -1,0 +1,45 @@
+﻿@page
+@model Pagina404Model
+@{
+    ViewData["Title"] = "Página 404";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Erro 404
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#">Examplo</a></li>
+        <li class="active">Página 404</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="error-page">
+        <h2 class="headline text-yellow"> 404</h2>
+
+        <div class="error-content">
+            <h3><i class="fa fa-warning text-yellow"></i>Oops! Página não encontrada</h3>
+
+            <p>
+                Não foi possível encontrar a página que você estava procurando.
+                Enquanto isso, você pode <a href="../../index.html">voltar ao painel</a> ou tente usar o formulário de pesquisa.
+            </p>
+
+            <form class="search-form">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Pesquisar">
+
+                    <div class="input-group-btn">
+                        <button type="submit" name="submit" class="btn btn-warning btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

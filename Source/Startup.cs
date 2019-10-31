@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
@@ -9,31 +5,28 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Company.WebApplication1.Data;
-using Company.WebApplication1.Services;
-using Company.WebApplication1.Services.Mail;
-using Microsoft.AspNetCore.Authentication.Facebook;
+using BancoVirtualEstudantilWeb.Data;
+using BancoVirtualEstudantilWeb.Services.Mail;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Rewrite;
-using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Hosting;
 
-namespace Company.WebApplication1
+namespace BancoVirtualEstudantilWeb
 {
     public class Startup
     {
+        private IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -43,59 +36,54 @@ namespace Company.WebApplication1
                 options.Cookie.IsEssential = true;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {
                 config.User.RequireUniqueEmail = true;    // уникальный email
-                config.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -._@+"; 
+                config.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -._@+";
                 config.SignIn.RequireConfirmedEmail = false;
-            })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             if (Configuration["Authentication:Facebook:IsEnabled"] == "true")
             {
-                services
-                    .AddAuthentication()
-                    .AddFacebook(facebookOptions => {
-                        facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                        facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                    });
+                services.AddAuthentication().AddFacebook(facebookOptions =>
+                {
+                    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                });
             }
 
             if (Configuration["Authentication:Google:IsEnabled"] == "true")
             {
-                services
-                    .AddAuthentication()
-                    .AddGoogle(googleOptions => {
-                        googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                        googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-                    });
+                services.AddAuthentication().AddGoogle(googleOptions =>
+                {
+                    googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                    googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                });
             }
 
-            services.AddMvc()
-                .AddRazorPagesOptions(options =>
-                {
-                    options.Conventions.AuthorizeFolder("/");
+            services.AddRazorPages();
+            services.Configure<RazorPagesOptions>(options => options.RootDirectory = "/Pagina");
+            services.AddMvc().WithRazorPagesRoot("/Pagina").AddRazorPagesOptions(options =>
+             {
+                 options.Conventions.AuthorizeFolder("/");
 
-                    options.Conventions.AllowAnonymousToPage("/Error");
-                    options.Conventions.AllowAnonymousToPage("/Account/AccessDenied");
-                    options.Conventions.AllowAnonymousToPage("/Account/ConfirmEmail");
-                    options.Conventions.AllowAnonymousToPage("/Account/ExternalLogin");
-                    options.Conventions.AllowAnonymousToPage("/Account/ForgotPassword");
-                    options.Conventions.AllowAnonymousToPage("/Account/ForgotPasswordConfirmation");
-                    options.Conventions.AllowAnonymousToPage("/Account/Lockout");
-                    options.Conventions.AllowAnonymousToPage("/Account/Login");
-                    options.Conventions.AllowAnonymousToPage("/Account/LoginWith2fa");
-                    options.Conventions.AllowAnonymousToPage("/Account/LoginWithRecoveryCode");
-                    options.Conventions.AllowAnonymousToPage("/Account/Register");
-                    options.Conventions.AllowAnonymousToPage("/Account/ResetPassword");
-                    options.Conventions.AllowAnonymousToPage("/Account/ResetPasswordConfirmation");
-                    options.Conventions.AllowAnonymousToPage("/Account/SignedOut");
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Latest);
+                 options.Conventions.AllowAnonymousToPage("/Error");
+                 options.Conventions.AllowAnonymousToPage("/Conta/AcessoNegado");
+                 options.Conventions.AllowAnonymousToPage("/Conta/ConfirmacaoEmail");
+                 options.Conventions.AllowAnonymousToPage("/Conta/ConectarExternamente");
+                 options.Conventions.AllowAnonymousToPage("/Conta/SenhaEsquecida");
+                 options.Conventions.AllowAnonymousToPage("/Conta/ConfimacaoSenhaEsquecida");
+                 options.Conventions.AllowAnonymousToPage("/Conta/Bloqueado");
+                 options.Conventions.AllowAnonymousToPage("/Conta/Conectar");
+                 options.Conventions.AllowAnonymousToPage("/Conta/ConectarComAutenticacao");
+                 options.Conventions.AllowAnonymousToPage("/Conta/ConectarComCodigoRecuperacao");
+                 options.Conventions.AllowAnonymousToPage("/Conta/CriarContar");
+                 options.Conventions.AllowAnonymousToPage("/Conta/RedefinirSenha");
+                 options.Conventions.AllowAnonymousToPage("/Conta/ConfirmacaoRedefinirSenha");
+                 options.Conventions.AllowAnonymousToPage("/Conta/Desconectar");
+             }).SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             services.Configure<MailManagerOptions>(Configuration.GetSection("Email"));
 
@@ -109,11 +97,12 @@ namespace Company.WebApplication1
                 services.AddSingleton<IMailManager, EmptyMailManager>();
             }
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<Services.Profile.ProfileManager>();
+            services.AddMvc(option => option.EnableEndpointRouting = false);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -128,18 +117,22 @@ namespace Company.WebApplication1
             }
 
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseAuthentication();
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages(); //Routes for pages
+                endpoints.MapControllers(); //Routes for my API controllers
+            });
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                routes.MapRoute("default", "{controller}/{action}/{id?}", new {controller = "Conta", action = "Conectar"});
             });
-
         }
     }
 }

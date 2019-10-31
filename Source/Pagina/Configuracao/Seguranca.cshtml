@@ -1,0 +1,149 @@
+﻿@page
+@model SegurancaModel
+@{
+    ViewData["Title"] = "Segurança";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        My Profile
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#">Configuracao</a></li>
+        <li class="active">Segurança</li>
+    </ol>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="row">
+        <div class="col-lg-2">
+        </div>
+        <div class="col-lg-8">
+
+            <h4>External Logins</h4>
+
+            <ul class="list-group">
+                @foreach (var login in Model.CurrentLogins)
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-4 text-left nowrap">
+                                <span class="btn btn-social-icon btn-@login.LoginProvider.ToLower()">
+                                    <i class="fa fa-@login.LoginProvider.ToLower()"></i>
+                                </span>
+                                <strong>@login.ProviderDisplayName</strong> <span class="label label-primary">Connected</span>
+                            </div>
+                            <div class="col-xs-8 text-right">
+                                @if (Model.ShowRemoveButton)
+                                {
+                                    <form asp-page-handler="RemoveLogin" method="post">
+                                        <div>
+                                            <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
+                                            <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
+                                            <button type="submit" class="btn btn-danger" title="Remove this @login.LoginProvider login from your account">
+                                                <i class="fa fa-remove"></i> Desconectar
+                                            </button>
+                                        </div>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </li>
+                }
+                @foreach (var provider in Model.OtherLogins)
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-4 text-left nowrap">
+                                <span class="btn btn-social-icon btn-@provider.DisplayName.ToLower()">
+                                    <i class="fa fa-@provider.DisplayName.ToLower()"></i>
+                                </span>
+                                <strong>@provider.DisplayName</strong>
+                            </div>
+                            <div class="col-xs-8 text-right">
+                                <form asp-page-handler="LinkLogin" method="post" class="form-horizontal">
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name">
+                                        <i class="fa fa-plus"></i> Conectar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+
+            <h4>Two-factor authentication</h4>
+            @if (Model.Is2FaEnabled)
+            {
+                @if (Model.RecoveryCodesLeft == 0)
+                {
+                    <div class="alert alert-danger">
+                        <strong>Você não tem códigos de recuperação restantes.</strong>
+                        <p>Você deve <a asp-page="./DoisFatoresAutenticacao/CodigoRecuperacao"> gerar um novo conjunto de códigos de recuperação </a> antes de poder fazer login com um código de recuperação.</p>
+                    </div>
+                }
+                else if (Model.RecoveryCodesLeft == 1)
+                {
+                    <div class="alert alert-danger">
+                        <strong>Você tem 1 código de recuperação restante.</strong>
+                        <p>Você pode <a asp-page="./DoisFatoresAutenticacao/CodigoRecuperacao"> gerar um novo conjunto de códigos de recuperação</a>.</p>
+                    </div>
+                }
+                else if (Model.RecoveryCodesLeft <= 3)
+                {
+                    <div class="alert alert-warning">
+                        <strong>Você tem @Model.RecoveryCodesLeft códigos de recuperação restantes.</strong>
+                        <p>Você deve <a asp-page="./DoisFatoresAutenticacao/CodigoRecuperacao"> gerar um novo conjunto de códigos de recuperação</a>.</p>
+                    </div>
+                }
+            }
+
+            <ul class="list-group">
+
+                <li class="list-group-item">
+                    <div class="row">
+                        @if (Model.Is2FaEnabled)
+                        {
+                            <div class="col-xs-4 text-left nowrap">
+                                Estado: <span class="text-green"><strong>Habilitar</strong> <i class="fa fa-check"></i></span>
+                            </div>
+                            <div class="col-xs-8 text-right">
+                                <form asp-page-handler="Disable2FA" method="post" class="form-group">
+                                    <a href="./DoisFatoresAutenticacao" class="btn btn-primary">
+                                        <i class="fa fa-edit"></i> Editar
+                                    </a>
+
+                                    <button class="btn btn-danger" type="submit" title="Desabilitar autenticacão de dois fatores"><i class="fa fa-remove"></i></button>
+                                </form>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-xs-4 text-left nowrap">
+                                Status: <span class="text-red"><strong>Off</strong> <i class="fa fa-remove"></i></span>
+                            </div>
+                            <div class="col-xs-8 text-right">
+                                <a href="./DoisFatoresAutenticacao" class="btn btn-primary">
+                                    <i class="fa fa-lock"></i> Configurar autenticação de dois fatores
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </li>
+                @if (Model.Is2FaEnabled)
+                {
+            <li class="list-group-item">
+                Salve seus <a href="./DoisFatoresAutenticacao/CodigoRecuperacao"> códigos de recuperação </a> em um local seguro. Eles permitirão que você acesse sua conta se você perder seu telefone.
+            </li>
+                }
+            </ul>
+        </div>
+        <div class="col-lg-2">
+        </div>
+    </div>
+</section>

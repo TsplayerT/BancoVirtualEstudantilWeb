@@ -1,0 +1,26 @@
+﻿@page
+@model SenhaEsquecidaModel
+@{
+    ViewData["Title"] = "Esqueceu sua senha?";
+}
+
+<div class="login-box-body">
+    <p class="login-box-msg">Digite seu email</p>
+    <form method="post">
+        <div class="form-group has-feedback">
+            <input asp-for="Input.Email" type="email" class="form-control" placeholder="Email">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            <span asp-validation-for="Input.Email" class="help-block"></span>
+        </div>
+        <div class="row">
+            <div class="col-xs-8">
+                        
+            </div>
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Enviar</button>
+            </div>
+        </div>
+    </form>
+    <a asp-page="./Conectar">Eu já tenho uma conta</a><br>
+    <a asp-page="./CriarConta" class="text-center">Criar uma conta</a>
+</div>

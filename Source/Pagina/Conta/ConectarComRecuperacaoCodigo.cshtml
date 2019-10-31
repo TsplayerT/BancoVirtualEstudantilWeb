@@ -1,0 +1,32 @@
+﻿@page
+@model ConectarComRecuperacaoCodigoModel
+@{
+    ViewData["Title"] = "Verificação do código de recuperação";
+}
+
+<div class="login-box-body">
+    <p class="login-box-msg">Verificação do código de recuperação</p>
+    <p>
+        Você solicitou conectar com um código de recuperação.
+        Seus dados de acesso não serão lembrados até que você forneça um código autenticador ao conectar ou desabilite a autenticação de dois fatores e tente novamente.
+    </p>
+    <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+        <div class="form-group has-feedback">
+            <input asp-for="Input.RecoveryCode" class="form-control" placeholder="Código" autocomplete="off">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            <span asp-validation-for="Input.RecoveryCode" class="help-block"></span>
+        </div>
+        <div class="row">
+            <div class="col-xs-8">
+                &nbsp;
+            </div>
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Log In</button>
+            </div>
+        </div>
+    </form>
+
+    <p>
+        <a asp-page="./Conectar" asp-route-returnUrl="@Model.ReturnUrl" class="text-center">Quero conectar com dados de acesso</a>
+    </p>
+</div>

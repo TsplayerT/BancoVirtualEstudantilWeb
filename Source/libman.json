@@ -48,7 +48,7 @@
         "styles.js",
         "adapters/jquery.js",
         "lang/en.js",
-        "lang/ru.js",
+        "lang/pt-br.js",
         "plugins/about/dialogs/about.js",
         "plugins/about/dialogs/logo_ckeditor.png",
         "plugins/about/dialogs/hidpi/logo_ckeditor.png",

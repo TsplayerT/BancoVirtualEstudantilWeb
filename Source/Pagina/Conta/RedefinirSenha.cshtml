@@ -1,0 +1,41 @@
+﻿@page
+@model RedefinirSenhaModel
+@{
+    ViewData["Title"] = "Redefinir senha";
+}
+
+<div class="login-box-body">
+    <p class="login-box-msg">Redefina sua senha.</p>
+    <form method="post">
+        <input asp-for="Input.Code" type="hidden" />
+        <div class="form-group has-feedback">
+            <input asp-for="Input.Email" type="email" class="form-control" placeholder="Email">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            <span asp-validation-for="Input.Email" class="help-block"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input asp-for="Input.Password" type="password" class="form-control" placeholder="Senha">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            <span asp-validation-for="Input.Password" class="help-block"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Repita a Senha">
+            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+            <span asp-validation-for="Input.ConfirmPassword" class="help-block"></span>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+        <div class="form-group has-feedback">
+            <div class="row">
+                <div class="col-xs-8">
+                            
+                </div>
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Concluir</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <a asp-page="./Login" class="text-center">Conecte usando a senha atual.</a>
+</div>

@@ -1,0 +1,74 @@
+﻿@page
+@model CodigoRecuperacaoModel
+@{
+    ViewData["Title"] = "2FA Recovery Codes";
+    ViewData["ActiveMenu"] = "/Settings/Security";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Autorização de dois fatores
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#">Configuração</a></li>
+        <li class="active">Histórico</li>
+    </ol>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="row">
+        <div class="col-lg-2">
+
+        </div>
+        <!-- /.col -->
+
+        <div class="col-lg-8">
+
+            <h4>Código de Recuperação para Autenticação de Dois Fatores</h4>
+            <div class="alert alert-warning" role="alert">
+                <p>
+                    <span class="glyphicon glyphicon-warning-sign"></span>
+                    <strong>Coloque esses códigos em um local seguro.</strong>
+                </p>
+                <p>
+                    Se você perder o dispositivo e não tiver os códigos de recuperação, perderá o acesso à sua conta.                </p>
+            </div>
+            <div class="panel panel-primary panel-info">
+                <div class="panel-body">
+                    @for (var row = 0; row < Model.RecoveryCodes.Length; row += 2)
+                    {
+                        <div class="row">
+                            <div class="col-md-6 text-center">
+                                <h4>@Model.RecoveryCodes[row]</h4>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <h4>@Model.RecoveryCodes[row + 1]</h4>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-primary"><i class="fa fa-download"></i> Baixar</button>
+                    <button class="btn btn-primary"><i class="fa fa-print"></i> Imprimir</button>
+                    <button class="btn btn-primary"><i class="fa fa-copy"></i> Copiar</button>
+
+                    <div class="pull-right">
+                        <form method="post">
+                            <button type="submit" asp-page-handler="GenerateNew" class="btn btn-primary pull-right">
+                                <i class="fa fa-gears"></i> Gerar novos códigos
+                            </button>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+        </div>
+    </div>
+</section>

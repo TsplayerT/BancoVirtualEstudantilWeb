@@ -3,27 +3,80 @@
 @{
     ViewData["Title"] = "Página inicial";
 }
+<script src="~/libs/chart.js/Chart.min.js"></script>
+
+@section Scripts {
+    <script>
+        $(function () {
+            var valoresConfiguracao = {
+                labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
+                datasets: [
+                    {
+                        label: 'Gasto',
+                        fillColor: 'rgb(221, 75, 57)',
+                        data: [65, 59, 80, 81, 56, 55, 40]
+                    },
+                    {
+                        label: 'Entrada',
+                        fillColor: 'rgb(0, 115, 183)',
+                        data: [28, 48, 40, 19, 86, 27, 90]
+                    }
+                ]
+            }
+
+            var barChartCanvas = $('#graficoSaldoMensais').get(0).getContext('2d');
+            var barChart = new Chart(barChartCanvas);
+            var barChartOptions = {
+                //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+                scaleBeginAtZero: true,
+                //Boolean - Whether grid lines are shown across the chart
+                scaleShowGridLines: true,
+                //String - Colour of the grid lines
+                scaleGridLineColor: 'rgba(0,0,0,.05)',
+                //Number - Width of the grid lines
+                scaleGridLineWidth: 1,
+                //Boolean - Whether to show horizontal lines (except X axis)
+                scaleShowHorizontalLines: true,
+                //Boolean - Whether to show vertical lines (except Y axis)
+                scaleShowVerticalLines: true,
+                //Boolean - If there is a stroke on each bar
+                barShowStroke: true,
+                //Number - Pixel width of the bar stroke
+                barStrokeWidth: 2,
+                //Number - Spacing between each of the X value sets
+                barValueSpacing: 5,
+                //Number - Spacing between data sets within X values
+                barDatasetSpacing: 1,
+                //String - A legend template
+                legendTemplate:
+                    '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
+                //Boolean - whether to make the chart responsive
+                responsive: true,
+                maintainAspectRatio: true,
+                datasetFill: false
+            }
+            barChart.Bar(valoresConfiguracao, barChartOptions);
+        })</script>
+}
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Blank page
-        <small>tudo começa aqui</small>
+        Bem-vindo,
+        <small>que bom te ver de volta!</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-        <li><a href="#">Exemplos</a></li>
-        <li class="active">Página vazia</li>
     </ol>
 </section>
 
 <!-- Main content -->
 <section class="content">
 
-    <!-- Default box -->
+    <!-- atalhos -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Title</h3>
+            <h3 class="box-title">Atalhos</h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Esconder">
@@ -35,10 +88,78 @@
             </div>
         </div>
         <div class="box-body">
-            Comece a criar seu aplicativo incrível!
+            <div class="row">
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>Pagamentos</h3>
+
+                            <p>e comprovantes</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa  fa-dollar"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            Mais informações <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>Simule</h3>
+
+                            <p>seu empréstimo</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-money"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            Mais informações <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-blue">
+                        <div class="inner">
+                            <h3>Tesouro</h3>
+
+                            <p>Direto</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-line-chart"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            Mais informações <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="box-footer">
-            Rodapé
+            Sempre é bom ter um caminho menor né.
+        </div>
+    </div>
+
+    <!-- gráfico-->
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Saldo mensais</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Esconder">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remover">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <canvas id="graficoSaldoMensais" style="height:200px"></canvas>
+        </div>
+        <div class="box-footer">
+            Tentamos te ajudar, mas nem sempre da certo.
         </div>
     </div>
 </section>

@@ -3,9 +3,6 @@
 @{
     ViewData["Title"] = "ChartJS";
 }
-@section Styles {
-
-}
 
 @section Scripts {
     <!-- ChartJS -->
@@ -29,7 +26,7 @@
     var areaChart       = new Chart(areaChartCanvas)
 
     var areaChartData = {
-      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels  : ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
       datasets: [
         {
           label               : 'Electronics',
@@ -255,9 +252,7 @@
                         <canvas id="areaChart" style="height:270px"></canvas>
                     </div>
                 </div>
-                <!-- /.box-body -->
             </div>
-            <!-- /.box -->
             <!-- DONUT CHART -->
             <div class="box box-danger">
                 <div class="box-header with-border">
@@ -273,12 +268,9 @@
                 <div class="box-body">
                     <canvas id="pieChart" style="height:270px"></canvas>
                 </div>
-                <!-- /.box-body -->
             </div>
-            <!-- /.box -->
 
         </div>
-        <!-- /.col (LEFT) -->
         <div class="col-md-6">
             <!-- LINE CHART -->
             <div class="box box-info">
@@ -297,9 +289,7 @@
                         <canvas id="lineChart" style="height:270px"></canvas>
                     </div>
                 </div>
-                <!-- /.box-body -->
             </div>
-            <!-- /.box -->
             <!-- BAR CHART -->
             <div class="box box-success">
                 <div class="box-header with-border">
@@ -317,14 +307,7 @@
                         <canvas id="barChart" style="height:230px"></canvas>
                     </div>
                 </div>
-                <!-- /.box-body -->
             </div>
-            <!-- /.box -->
-
         </div>
-        <!-- /.col (RIGHT) -->
     </div>
-    <!-- /.row -->
-
 </section>
-<!-- /.content -->

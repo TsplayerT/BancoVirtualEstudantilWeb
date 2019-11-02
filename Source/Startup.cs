@@ -24,20 +24,10 @@ namespace BancoVirtualEstudantilWeb
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
-            services.Configure<CookieTempDataProviderOptions>(options =>
-            {
-                options.Cookie.IsEssential = true;
-            });
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {
                 config.User.RequireUniqueEmail = true;    // уникальный email
@@ -63,9 +53,16 @@ namespace BancoVirtualEstudantilWeb
                 });
             }
 
-            services.AddRazorPages();
-            services.Configure<RazorPagesOptions>(options => options.RootDirectory = "/Pagina");
-            services.AddMvc().WithRazorPagesRoot("/Pagina").AddRazorPagesOptions(options =>
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = "auth_cookie";
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.LoginPath = new PathString("/Conta/Conectar");
+                options.LogoutPath = new PathString("/Conta/Desconectar");
+                options.AccessDeniedPath = new PathString("/Conta/AcessoNegado");
+            });
+
+            services.AddMvc(option => option.EnableEndpointRouting = false).AddRazorPagesOptions(options =>
              {
                  options.Conventions.AuthorizeFolder("/");
 
@@ -85,6 +82,17 @@ namespace BancoVirtualEstudantilWeb
                  options.Conventions.AllowAnonymousToPage("/Conta/Desconectar");
              }).SetCompatibilityVersion(CompatibilityVersion.Latest);
 
+            services.Configure<RazorPagesOptions>(options => options.RootDirectory = "/Pagina");
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.Configure<CookieTempDataProviderOptions>(options =>
+            {
+                options.Cookie.IsEssential = true;
+            });
             services.Configure<MailManagerOptions>(Configuration.GetSection("Email"));
 
             if (Configuration["Email:EmailProvider"] == "SendGrid")
@@ -97,9 +105,7 @@ namespace BancoVirtualEstudantilWeb
                 services.AddSingleton<IMailManager, EmptyMailManager>();
             }
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<Services.Profile.ProfileManager>();
-            services.AddMvc(option => option.EnableEndpointRouting = false);
         }
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -116,9 +122,8 @@ namespace BancoVirtualEstudantilWeb
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            app.UseHttpsRedirection(); 
+            app.UseFileServer();
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseRouting();

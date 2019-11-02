@@ -5,19 +5,17 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <!-- Sidebar user panel -->
-        <div class="user-panel" style="margin:0 0 -15px 0">
+        <div class="user-panel">
             <div class="pull-left image">
                 <img src="~/img/user2-160x160.jpg" class="img-circle" alt="Imagem do usuário">
             </div>
-            <div class="container-fluid">
-                <div class="pull-left info" style="margin-left:5px">
-                    <p>@ProfileManager.CurrentUser.UserName</p>
+            <div class="pull-left info">
+                <p style="color: #fff">@ProfileManager.CurrentUser.UserName</p>
+                <div style="display: flex; align-items: center">
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                </div>
-                <div class="pull-right" style="margin: -25px -16px 0 0">
-                    <form asp-controller="Conta" asp-action="Logout" method="post" id="logoutForm">
-                        <button type="submit" class="btn btn-default btn-flat">Desconectar</button>
-                    </form>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popUpDesconectar" style="margin-left: auto">
+                        Desconectar
+                    </button>
                 </div>
             </div>
         </div>
@@ -35,188 +33,207 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         @* ReSharper disable Html.PathError *@
-    <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MENU PRINCIPAL</li>
-        <li class="treeview @(Html.MenuAtivo("/Painel") ? "active" : "")">
-            <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Painéis</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li class="@(Html.MenuAtivo("/Painel/Versao1") ? "active" : "")"><a href="~/Painel/Versao1"><i class="fa fa-circle-o"></i> Versão 1</a></li>
-                <li class="@(Html.MenuAtivo("/Painel/Versao2") ? "active" : "")"><a href="~/Painel/Versao2"><i class="fa fa-circle-o"></i> Versão 2</a></li>
-            </ul>
-        </li>
-        <li class="treeview @(Html.MenuAtivo("/Configuracao") ? "active" : "")">
-            <a href="#">
-                <i class="fa fa-gear"></i>
-                <span>Configurações</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li class="@(Html.MenuAtivo("/Configuracao/Perfil") ? "active" : "")"><a href="~/Configuracao/Perfil"><i class="fa fa-user"></i> Pefil</a></li>
-                <li class="@(Html.MenuAtivo("/Configuracao/Conta") ? "active" : "")"><a href="~/Configuracao/Conta"><i class="fa fa-lock"></i> Conta</a></li>
-                <li class="@(Html.MenuAtivo("/Configuracao/Seguranca") ? "active" : "")"><a href="~/Configuracao/Seguranca"><i class="fa fa-user-secret"></i> Segurança</a></li>
-                <li class="@(Html.MenuAtivo("/Configuracao/Historico") ? "active" : "")"><a href="~/Configuracao/Historico"><i class="fa fa-history"></i> Histórico</a></li>
-            </ul>
-        </li>
-        <li class="@(Html.MenuAtivo("/ElementoInterativo") ? "active" : "")">
-            <a href="~/ElementoInterativo">
-                <i class="fa fa-th"></i> <span>Elementos interativos </span>
-                <span class="pull-right-container">
-                    <small class="label pull-right bg-green">Novo</small>
-                </span>
-            </a>
-        </li>
-        <li class="treeview @(Html.MenuAtivo("/Grafico") ? "active" : "")">
-            <a href="#">
-                <i class="fa fa-pie-chart"></i>
-                <span>Gráficos</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li class="@(Html.MenuAtivo("/Grafico/ChartJS") ? "active" : "")"><a href="~/Grafico/ChartJS"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-                <li class="@(Html.MenuAtivo("/Grafico/Morris") ? "active" : "")"><a href="~/Grafico/Morris"><i class="fa fa-circle-o"></i> Morris</a></li>
-                <li class="@(Html.MenuAtivo("/Grafico/Flot") ? "active" : "")"><a href="~/Grafico/Flot"><i class="fa fa-circle-o"></i> Flot</a></li>
-                <li class="@(Html.MenuAtivo("/Grafico/Inline") ? "active" : "")"><a href="~/Grafico/Inline"><i class="fa fa-circle-o"></i> Inline charts</a></li>
-            </ul>
-        </li>
-        <li class="treeview @(Html.MenuAtivo("/Interface") ? "active" : "")">
-            <a href="#">
-                <i class="fa fa-laptop"></i>
-                <span>Interface</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li class="@(Html.MenuAtivo("/Interface/Geral") ? "active" : "")"><a href="~/Interface/Geral"><i class="fa fa-circle-o"></i> Geral</a></li>
-                <li class="@(Html.MenuAtivo("/Interface/Icone") ? "active" : "")"><a href="~/Interface/Icone"><i class="fa fa-circle-o"></i> Icones</a></li>
-                <li class="@(Html.MenuAtivo("/Interface/Botoao") ? "active" : "")"><a href="~/Interface/Botao"><i class="fa fa-circle-o"></i> Botões</a></li>
-                <li class="@(Html.MenuAtivo("/Interface/ControleDeslizante") ? "active" : "")"><a href="~/Interface/ControleDeslizante"><i class="fa fa-circle-o"></i> Controle deslizante</a></li>
-                <li class="@(Html.MenuAtivo("/Interface/LinhaTempo") ? "active" : "")"><a href="~/Interface/LinhaTempo"><i class="fa fa-circle-o"></i> Linha do tempo</a></li>
-                <li class="@(Html.MenuAtivo("/Interface/PopUp") ? "active" : "")"><a href="~/Interface/PopUp"><i class="fa fa-circle-o"></i> Pop up</a></li>
-            </ul>
-        </li>
-        <li class="treeview @(Html.MenuAtivo("/Formulario") ? "active" : "")">
-            <a href="#">
-                <i class="fa fa-edit"></i> <span>Formulários</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li class="@(Html.MenuAtivo("/Formulario/Geral") ? "active" : "")"><a href="~/Formulario/Geral"><i class="fa fa-circle-o"></i> Gerais</a></li>
-                <li class="@(Html.MenuAtivo("/Formulario/Avancado") ? "active" : "")"><a href="~/Formulario/Avancado"><i class="fa fa-circle-o"></i> Avançados</a></li>
-                <li class="@(Html.MenuAtivo("/Formulario/Editor") ? "active" : "")"><a href="~/Formulario/Editor"><i class="fa fa-circle-o"></i> Editores</a></li>
-            </ul>
-        </li>
-        <li class="treeview @(Html.MenuAtivo("/Tabela") ? "active" : "")">
-            <a href="#">
-                <i class="fa fa-table"></i> <span>Tabelas</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li class="@(Html.MenuAtivo("/Tabela/Simples") ? "active" : "")"><a href="~/Tabela/Simples"><i class="fa fa-circle-o"></i> Simples</a></li>
-                <li class="@(Html.MenuAtivo("/Tabela/Valores") ? "active" : "")"><a href="~/Tabela/Valores"><i class="fa fa-circle-o"></i> Valores</a></li>
-            </ul>
-        </li>
-        <li class="@(Html.MenuAtivo("/Calendar") ? "active" : "")">
-            <a href="~/Calendario">
-                <i class="fa fa-calendar"></i> <span>Calendário</span>
-                <span class="pull-right-container">
-                    <small class="label pull-right bg-red">3</small>
-                    <small class="label pull-right bg-blue">17</small>
-                </span>
-            </a>
-        </li>
-        <li class="treeview @(Html.MenuAtivo("/Email") ? "active" : "")">
-            <a href="~/Email/Entrada">
-                <i class="fa fa-envelope"></i> <span>Email</span>
-                <span class="pull-right-container">
-                    <small class="label pull-right bg-yellow">12</small>
-                    <small class="label pull-right bg-green">16</small>
-                    <small class="label pull-right bg-red">5</small>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li class="@(Html.MenuAtivo("/Email/Entrada") ? "active" : "")">
-                    <a href="~/Email/Entrada">
-                        Entrada
-                        <span class="pull-right-container">
-                            <span class="label label-primary pull-right">13</span>
-                        </span>
-                    </a>
-                </li>
-                <li class="@(Html.MenuAtivo("/Email/Escrever") ? "active" : "")"><a href="~/Email/Escrever">Escrever</a></li>
-                <li class="@(Html.MenuAtivo("/Email/Ler") ? "active" : "")"><a href="~/Email/Ler">Ler</a></li>
-            </ul>
-        </li>
-        <li class="treeview @(Html.MenuAtivo("/Exemplo") ? "active" : "")">
-            <a href="#">
-                <i class="fa fa-folder"></i> <span>Exemplos</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li class="@(Html.MenuAtivo("/Exemplo/Fatura") ? "active" : "")"><a href="~/Exemplo/Fatura"><i class="fa fa-circle-o"></i> Fatura</a></li>
-                <li class="@(Html.MenuAtivo("/Exemplo/Perfil") ? "active" : "")"><a href="~/Exemplo/Perfil"><i class="fa fa-circle-o"></i> Perfil</a></li>
-                <li class="@(Html.MenuAtivo("/Exemplo/Pagina404") ? "active" : "")"><a href="~/Exemplo/Pagina404"><i class="fa fa-circle-o"></i> Erro 404</a></li>
-                <li class="@(Html.MenuAtivo("/Exemplo/Pagina500") ? "active" : "")"><a href="~/Exemplo/Pagina500"><i class="fa fa-circle-o"></i> Erro 500</a></li>
-                <li class="@(Html.MenuAtivo("/Exemplo/PaginaVazia") ? "active" : "")"><a href="~/Exemplo/PaginaVazia"><i class="fa fa-circle-o"></i> Página branca</a></li>
-                <li class="@(Html.MenuAtivo("/Exemplo/PaginaVariada") ? "active" : "")"><a href="~/Exemplo/PaginaVariada"><i class="fa fa-circle-o"></i> Página variada</a></li>
-            </ul>
-        </li>
-        <li class="treeview">
-            <a href="#">
-                <i class="fa fa-share"></i> <span>Multinível</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Nível um</a></li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-circle-o"></i> Nível um
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Nível dois</a></li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-circle-o"></i> Nível dois
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Nível três</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Nível três</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Nível um</a></li>
-            </ul>
-        </li>
-        <li><a href="https://dotnet.express/docs"><i class="fa fa-book"></i> <span>Documentação</span></a></li>
-        <li class="header">Rótulos</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Importante</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Atenção</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Informação</span></a></li>
-    </ul>
-    @* ReSharper restore Html.PathError *@
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MENU PRINCIPAL</li>
+            <li class="treeview @(Html.MenuAtivo("/Painel") ? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>Painéis</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.MenuAtivo("/Painel/Versao1") ? "active" : "")"><a href="~/Painel/Versao1"><i class="fa fa-circle-o"></i> Versão 1</a></li>
+                    <li class="@(Html.MenuAtivo("/Painel/Versao2") ? "active" : "")"><a href="~/Painel/Versao2"><i class="fa fa-circle-o"></i> Versão 2</a></li>
+                </ul>
+            </li>
+            <li class="treeview @(Html.MenuAtivo("/Configuracao") ? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-gear"></i>
+                    <span>Configurações</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.MenuAtivo("/Configuracao/Perfil") ? "active" : "")"><a href="~/Configuracao/Perfil"><i class="fa fa-user"></i> Pefil</a></li>
+                    <li class="@(Html.MenuAtivo("/Configuracao/Conta") ? "active" : "")"><a href="~/Configuracao/Conta"><i class="fa fa-lock"></i> Conta</a></li>
+                    <li class="@(Html.MenuAtivo("/Configuracao/Seguranca") ? "active" : "")"><a href="~/Configuracao/Seguranca"><i class="fa fa-user-secret"></i> Segurança</a></li>
+                    <li class="@(Html.MenuAtivo("/Configuracao/Historico") ? "active" : "")"><a href="~/Configuracao/Historico"><i class="fa fa-history"></i> Histórico</a></li>
+                </ul>
+            </li>
+            <li class="@(Html.MenuAtivo("/ElementoInterativo") ? "active" : "")">
+                <a href="~/ElementoInterativo">
+                    <i class="fa fa-th"></i> <span>Elementos interativos </span>
+                    <span class="pull-right-container">
+                        <small class="label pull-right bg-green">Novo</small>
+                    </span>
+                </a>
+            </li>
+            <li class="treeview @(Html.MenuAtivo("/Grafico") ? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-pie-chart"></i>
+                    <span>Gráficos</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.MenuAtivo("/Grafico/ChartJS") ? "active" : "")"><a href="~/Grafico/ChartJS"><i class="fa fa-circle-o"></i> ChartJS</a></li>
+                    <li class="@(Html.MenuAtivo("/Grafico/Morris") ? "active" : "")"><a href="~/Grafico/Morris"><i class="fa fa-circle-o"></i> Morris</a></li>
+                    <li class="@(Html.MenuAtivo("/Grafico/Flot") ? "active" : "")"><a href="~/Grafico/Flot"><i class="fa fa-circle-o"></i> Flot</a></li>
+                    <li class="@(Html.MenuAtivo("/Grafico/Inline") ? "active" : "")"><a href="~/Grafico/Inline"><i class="fa fa-circle-o"></i> Inline charts</a></li>
+                </ul>
+            </li>
+            <li class="treeview @(Html.MenuAtivo("/Interface") ? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-laptop"></i>
+                    <span>Interface</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.MenuAtivo("/Interface/Geral") ? "active" : "")"><a href="~/Interface/Geral"><i class="fa fa-circle-o"></i> Geral</a></li>
+                    <li class="@(Html.MenuAtivo("/Interface/Icone") ? "active" : "")"><a href="~/Interface/Icone"><i class="fa fa-circle-o"></i> Icones</a></li>
+                    <li class="@(Html.MenuAtivo("/Interface/Botoao") ? "active" : "")"><a href="~/Interface/Botao"><i class="fa fa-circle-o"></i> Botões</a></li>
+                    <li class="@(Html.MenuAtivo("/Interface/ControleDeslizante") ? "active" : "")"><a href="~/Interface/ControleDeslizante"><i class="fa fa-circle-o"></i> Controle deslizante</a></li>
+                    <li class="@(Html.MenuAtivo("/Interface/LinhaTempo") ? "active" : "")"><a href="~/Interface/LinhaTempo"><i class="fa fa-circle-o"></i> Linha do tempo</a></li>
+                    <li class="@(Html.MenuAtivo("/Interface/PopUp") ? "active" : "")"><a href="~/Interface/PopUp"><i class="fa fa-circle-o"></i> Pop up</a></li>
+                </ul>
+            </li>
+            <li class="treeview @(Html.MenuAtivo("/Formulario") ? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-edit"></i> <span>Formulários</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.MenuAtivo("/Formulario/Geral") ? "active" : "")"><a href="~/Formulario/Geral"><i class="fa fa-circle-o"></i> Gerais</a></li>
+                    <li class="@(Html.MenuAtivo("/Formulario/Avancado") ? "active" : "")"><a href="~/Formulario/Avancado"><i class="fa fa-circle-o"></i> Avançados</a></li>
+                    <li class="@(Html.MenuAtivo("/Formulario/Editor") ? "active" : "")"><a href="~/Formulario/Editor"><i class="fa fa-circle-o"></i> Editores</a></li>
+                </ul>
+            </li>
+            <li class="treeview @(Html.MenuAtivo("/Tabela") ? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-table"></i> <span>Tabelas</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.MenuAtivo("/Tabela/Simples") ? "active" : "")"><a href="~/Tabela/Simples"><i class="fa fa-circle-o"></i> Simples</a></li>
+                    <li class="@(Html.MenuAtivo("/Tabela/Valores") ? "active" : "")"><a href="~/Tabela/Valores"><i class="fa fa-circle-o"></i> Valores</a></li>
+                </ul>
+            </li>
+            <li class="@(Html.MenuAtivo("/Calendario") ? "active" : "")">
+                <a href="~/Calendario">
+                    <i class="fa fa-calendar"></i> <span>Calendário</span>
+                    <span class="pull-right-container">
+                        <small class="label pull-right bg-red">3</small>
+                        <small class="label pull-right bg-blue">17</small>
+                    </span>
+                </a>
+            </li>
+            <li class="treeview @(Html.MenuAtivo("/Email") ? "active" : "")">
+                <a href="~/Email/Entrada">
+                    <i class="fa fa-envelope"></i> <span>Email</span>
+                    <span class="pull-right-container">
+                        <small class="label pull-right bg-yellow">12</small>
+                        <small class="label pull-right bg-green">16</small>
+                        <small class="label pull-right bg-red">5</small>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.MenuAtivo("/Email/Entrada") ? "active" : "")">
+                        <a href="~/Email/Entrada">
+                            Entrada
+                            <span class="pull-right-container">
+                                <span class="label label-primary pull-right">13</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="@(Html.MenuAtivo("/Email/Escrever") ? "active" : "")"><a href="~/Email/Escrever">Escrever</a></li>
+                    <li class="@(Html.MenuAtivo("/Email/Ler") ? "active" : "")"><a href="~/Email/Ler">Ler</a></li>
+                </ul>
+            </li>
+            <li class="treeview @(Html.MenuAtivo("/Exemplo") ? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-folder"></i> <span>Exemplos</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.MenuAtivo("/Exemplo/Fatura") ? "active" : "")"><a href="~/Exemplo/Fatura"><i class="fa fa-circle-o"></i> Fatura</a></li>
+                    <li class="@(Html.MenuAtivo("/Exemplo/Perfil") ? "active" : "")"><a href="~/Exemplo/Perfil"><i class="fa fa-circle-o"></i> Perfil</a></li>
+                    <li class="@(Html.MenuAtivo("/Exemplo/Pagina404") ? "active" : "")"><a href="~/Exemplo/Pagina404"><i class="fa fa-circle-o"></i> Erro 404</a></li>
+                    <li class="@(Html.MenuAtivo("/Exemplo/Pagina500") ? "active" : "")"><a href="~/Exemplo/Pagina500"><i class="fa fa-circle-o"></i> Erro 500</a></li>
+                    <li class="@(Html.MenuAtivo("/Exemplo/PaginaVazia") ? "active" : "")"><a href="~/Exemplo/PaginaVazia"><i class="fa fa-circle-o"></i> Página branca</a></li>
+                    <li class="@(Html.MenuAtivo("/Exemplo/PaginaVariada") ? "active" : "")"><a href="~/Exemplo/PaginaVariada"><i class="fa fa-circle-o"></i> Página variada</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-share"></i> <span>Multinível</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Nível um</a></li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-circle-o"></i> Nível um
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Nível dois</a></li>
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-circle-o"></i> Nível dois
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="#"><i class="fa fa-circle-o"></i> Nível três</a></li>
+                                    <li><a href="#"><i class="fa fa-circle-o"></i> Nível três</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Nível um</a></li>
+                </ul>
+            </li>
+            <li><a href="https://dotnet.express/docs"><i class="fa fa-book"></i> <span>Documentação</span></a></li>
+            <li class="header">Rótulos</li>
+            <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Importante</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Atenção</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Informação</span></a></li>
+        </ul>
+        @* ReSharper restore Html.PathError *@
     </section>
 </aside>
+
+<div class="modal modal-danger fade" id="popUpDesconectar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Realmente deseja desconectar?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Não, vou continuar na sessão</button>
+                <form asp-controller="Conta" asp-action="Desconectar" method="post">
+                    <button type="submit" class="btn btn-outline">Sim, eu quero sair</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

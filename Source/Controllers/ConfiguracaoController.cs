@@ -9,7 +9,7 @@ namespace BancoVirtualEstudantilWeb.Controllers
             return RedirectToPage("/Configuracao/Perfil");
         }
 
-        public IActionResult TwoFactorAuth()
+        public IActionResult DoisFatoresAutenticacao()
         {
             return RedirectToPage("/Configuracao/DoisFatoresAutenticacao/Configuracao");
         }

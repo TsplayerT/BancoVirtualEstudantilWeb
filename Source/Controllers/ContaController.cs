@@ -20,7 +20,7 @@ namespace BancoVirtualEstudantilWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Desconectar()
         {
             await SignInManager.SignOutAsync();
             Logger.LogInformation("Usuário desconectado.");
